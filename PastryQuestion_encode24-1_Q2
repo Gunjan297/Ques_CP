@@ -1,0 +1,59 @@
+//Pastry question equal number of 1's and 2's ...1's at the beggining and 2 at the end...example: 2 2 1 1 1 2 2...Output=4
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main() {
+    int fans = 0;
+    int n;
+    cin >> n;
+
+    vector<int> pastry(n);
+
+    for (int i = 0; i < n; i++) {
+        int val;
+        cin >> val;
+        pastry[i] = val; // Direct assignment instead of push_back
+    }
+
+    int f1 = 0, f2 = 1;
+
+    while (f1 < n && f2 < n) {
+        int cnt1 = 0, cnt2 = 0;
+
+        // Find the first occurrence of '1' starting from f1
+        for (int i = f1; i < n; i++) {
+            if (pastry[i] == 1) {
+                f1 = i;
+                break;
+            }
+        }
+
+        // Find the first occurrence of '2' starting from f1 + 1
+        f2 = f1 + 1;
+        for (int i = f2; i < n; i++) {
+            if (pastry[i] == 2) {
+                f2 = i;
+                break;
+            }
+        }
+
+        // Count consecutive '1's
+        while (f1 < n && pastry[f1] == 1) {
+            cnt1++;
+            f1++;
+        }
+
+        // Count consecutive '2's
+        while (f2 < n && pastry[f2] == 2) {
+            cnt2++;
+            f2++;
+        }
+
+        // Calculate the maximum number of 1-2 pairs
+        int num = min(cnt1, cnt2);
+        fans = max(fans, 2 * num);
+    }
+
+    cout << fans;
+}
